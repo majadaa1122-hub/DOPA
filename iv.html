@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>IV CLAN | GLASS DATABASE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background: #05070a;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #05070a;
+            font-family: 'Segoe UI', 'Poppins', 'SF Pro Display', system-ui, sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            position: relative;
+        }
+
+        .premium-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 30% 40%, #0f1425, #05070a 80%);
+            z-index: 0;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(212,175,55,0.3), transparent);
+            border-radius: 50%;
+            animation: floatUp 12s infinite ease-in-out;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            30% { opacity: 0.4; }
+            100% { transform: translateY(-20vh) scale(1); opacity: 0; }
+        }
+
+        .dynamic-aurora {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(212,175,55,0.04) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 70%, rgba(100,80,255,0.03) 0%, transparent 60%);
+            animation: auroraShift 18s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+        @keyframes auroraShift {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+            100% { opacity: 0.3; transform: scale(1); }
+        }
+
+        .glass-master {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            background: rgba(8, 12, 20, 0.35);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .glass-texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 12px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            padding: 0 20px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .glorious-header {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 25px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.1), rgba(0,0,0,0.25));
+            backdrop-filter: blur(25px);
+            border-radius: 55px;
+            border: 1px solid rgba(212,175,55,0.3);
+            padding: 22px 28px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: softGlow 3s infinite alternate;
+        }
+        @keyframes softGlow {
+            0% { box-shadow: 0 0 0px rgba(212,175,55,0); border-color: rgba(212,175,55,0.25); }
+            100% { box-shadow: 0 0 25px rgba(212,175,55,0.08); border-color: rgba(212,175,55,0.45); }
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5e9c4, #d4af37, #c9a022);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .brand-sub {
+            font-size: 0.7rem;
+            color: #bfb68a;
+            letter-spacing: 3px;
+            margin-top: 6px;
+        }
+
+        .main-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 28px auto 20px;
+            background: rgba(15, 20, 32, 0.45);
+            backdrop-filter: blur(15px);
+            padding: 6px 16px;
+            border-radius: 80px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            background: rgba(25, 30, 48, 0.5);
+            color: #b9c2da;
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .tab-btn.active {
+            background: linear-gradient(105deg, #d4af37, #b8921a);
+            color: #0e101a;
+            box-shadow: 0 4px 12px rgba(212,175,55,0.25);
+            transform: scale(1.02);
+        }
+
+        .section-panel {
+            width: 100%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: panelFade 0.25s ease-out;
+        }
+        .section-panel.active-panel {
+            display: flex;
+        }
+        @keyframes panelFade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .filter-strip {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px auto 25px;
+        }
+        .glass-filter {
+            background: rgba(25, 30, 48, 0.55);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212,175,55,0.25);
+            padding: 7px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #dadfc9;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .glass-filter.active {
+            background: linear-gradient(115deg, #d4af37, #b8921a);
+            color: #0a0d18;
+            transform: scale(1.02);
+            box-shadow: 0 0 10px rgba(212,175,55,0.3);
+        }
+
+        .glass-weapon-grid {
+            display: grid;
+            width: 100%;
+            max-width: 1100px;
+            grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+            gap: 18px;
+            padding: 10px 5px 35px;
+        }
+
+        .weapon-glass-card {
+            background: linear-gradient(145deg, rgba(25, 32, 55, 0.5), rgba(15, 20, 40, 0.45));
+            backdrop-filter: blur(16px);
+            border-radius: 28px;
+            border: 1px solid rgba(212,175,55,0.25);
+            padding: 18px 8px 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transform: translateZ(0);
+        }
+        .weapon-glass-card:active {
+            transform: scale(0.96);
+            transition: 0.05s;
+        }
+        .weapon-glass-card:hover {
+            transform: translateY(-4px);
+            border-color: #d4af37;
+            background: rgba(35, 45, 70, 0.6);
+        }
+        .weapon-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5e9c4, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .weapon-category {
+            font-size: 0.5rem;
+            font-weight: 700;
+            background: rgba(0,0,0,0.4);
+            padding: 3px 12px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-top: 8px;
+            color: #b9c2da;
+        }
+        .restricted-badge {
+            font-size: 0.55rem;
+            color: #ffb48a;
+            background: rgba(255, 80, 80, 0.2);
+            padding: 3px 10px;
+            border-radius: 30px;
+            margin-top: 6px;
+            display: inline-block;
+        }
+
+        .hero-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 50px 20px;
+            gap: 22px;
+            flex-wrap: wrap;
+        }
+        .hero-card {
+            background: linear-gradient(135deg, rgba(35, 42, 65, 0.6), rgba(20, 26, 45, 0.6));
+            backdrop-filter: blur(30px);
+            border-radius: 55px;
+            border: 1.5px solid rgba(212,175,55,0.4);
+            padding: 30px 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 170px;
+            position: relative;
+        }
+        .hero-card:active {
+            transform: scale(0.97);
+            transition: 0.05s;
+        }
+        .hero-card:hover {
+            transform: translateY(-3px);
+            border-color: #d4af37;
+        }
+        .hero-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f5e9c4, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-sub {
+            font-size: 0.6rem;
+            color: #bfb68a;
+            margin-top: 6px;
+        }
+        .check-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #1e8a1e, #0d5a0d);
+            border-radius: 40px;
+            padding: 4px 10px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #a5d6a5;
+            border: 1px solid #5a9e5a;
+        }
+        .forbidden-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #8a1e1e, #5a0d0d);
+            border-radius: 40px;
+            padding: 4px 10px;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #ffa5a5;
+            border: 1px solid #9e5a5a;
+        }
+
+        .glass-corner {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+        .glass-corner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 22px;
+            height: 22px;
+            border-top: 2px solid rgba(212,175,55,0.7);
+            border-left: 2px solid rgba(212,175,55,0.7);
+            border-radius: 8px 0 0 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .glass-corner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 22px;
+            height: 22px;
+            border-bottom: 2px solid rgba(212,175,55,0.7);
+            border-right: 2px solid rgba(212,175,55,0.7);
+            border-radius: 0 0 8px 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .glass-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(3, 6, 12, 0.85);
+            backdrop-filter: blur(40px);
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+        .modal-gold-container {
+            background: linear-gradient(145deg, rgba(12, 18, 30, 0.96), rgba(6, 10, 18, 0.98));
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(212,175,55,0.6);
+            border-radius: 55px;
+            padding: 22px 18px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            animation: modalRise 0.2s ease-out;
+            position: relative;
+        }
+        @keyframes modalRise {
+            from { opacity: 0; transform: scale(0.96) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .close-modal-icon {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            font-size: 26px;
+            color: #d4af37;
+            cursor: pointer;
+            width: 34px;
+            height: 34px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.3);
+            transition: 0.15s;
+        }
+        .close-modal-icon:active {
+            transform: scale(0.9);
+            background: #d4af37;
+            color: #0a0e1c;
+        }
+        .modal-headline {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ecd97e, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 12px;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding: 8px;
+            margin-top: 12px;
+        }
+        .items-grid::-webkit-scrollbar {
+            width: 4px;
+        }
+        .items-grid::-webkit-scrollbar-track {
+            background: rgba(212,175,55,0.1);
+            border-radius: 10px;
+        }
+        .items-grid::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
+        .item-card {
+            background: rgba(0, 0, 0, 0.45);
+            border-radius: 28px;
+            padding: 12px 8px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,0.25);
+            transition: 0.1s;
+        }
+        .item-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f5e9c4, #d4af37);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .footer-modal-note {
+            font-size: 0.55rem;
+            color: #9aa2c2;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .footer-main {
+            text-align: center;
+            font-size: 0.6rem;
+            color: #8f99b5;
+            margin-top: 20px;
+            padding: 6px 18px;
+            border-radius: 40px;
+            background: rgba(20, 25, 40, 0.3);
+            backdrop-filter: blur(6px);
+            display: inline-block;
+            line-height: 1.8;
+        }
+        .footer-main span {
+            color: #d4af37;
+            font-weight: 600;
+        }
+
+        .red-border { border-right: 3px solid #ff4444; }
+        .green-border { border-right: 3px solid #44ff44; }
+        .blue-border { border-right: 3px solid #4488ff; }
+
+        @media (max-width: 650px) {
+            .hero-card { padding: 22px 28px; }
+            .hero-title { font-size: 1.2rem; }
+            .items-grid { grid-template-columns: 1fr; }
+            .glass-weapon-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .check-badge, .forbidden-badge { font-size: 0.5rem; padding: 3px 7px; top: -6px; right: -6px; }
+            .tab-btn { padding: 6px 14px; font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="premium-bg"></div>
+    <div class="floating-particles" id="particlesLayer"></div>
+    <div class="dynamic-aurora"></div>
+    <div class="glass-master"></div>
+    <div class="glass-texture"></div>
+
+    <div class="content">
+        <div class="glorious-header">
+            <h1>⚜️ IV CLAN ⚜️</h1>
+            <div class="brand-sub">CRYSTAL DATABASE · ZERO TOLERANCE</div>
+        </div>
+
+        <div class="main-tabs">
+            <button class="tab-btn active" data-panel="weapons">🔥 الأسلحة</button>
+            <button class="tab-btn" data-panel="maps">🏰 المابات</button>
+            <button class="tab-btn" data-panel="grenades">⚔️ القنابل</button>
+            <button class="tab-btn" data-panel="operators">★ المهارات</button>
+            <button class="tab-btn" data-panel="perks">🌟 البيركات</button>
+            <button class="tab-btn" data-panel="scorestreaks">🎯 النقاط</button>
+        </div>
+
+        <!-- WEAPONS PANEL -->
+        <div id="weaponsPanel" class="section-panel active-panel">
+            <div class="filter-strip" id="weaponFilters">
+                <button data-filter="all" class="glass-filter active">الكل</button>
+                <button data-filter="AR" class="glass-filter">⚔️ AR</button>
+                <button data-filter="SNIPER" class="glass-filter">🎯 قناصة</button>
+                <button data-filter="SMG" class="glass-filter">🔫 رشاشات</button>
+                <button data-filter="LMG" class="glass-filter">🛡️ رشاشة ثقيلة</button>
+                <button data-filter="PISTOL" class="glass-filter">🔫 مسدسات</button>
+                <button data-filter="OTHER" class="glass-filter">🧙‍♂️ أخرى</button>
+            </div>
+            <div class="glass-weapon-grid" id="weaponsContainer"></div>
+        </div>
+
+        <!-- MAPS PANEL -->
+        <div id="mapsPanel" class="section-panel">
+            <div class="hero-container">
+                <div class="hero-card" onclick="openMapsModal('Hard Point')">
+                    <div class="check-badge">✓ معتمدة</div>
+                    <div class="hero-title">🔴 هارد بوينت</div>
+                    <div class="hero-sub">5 مابات</div>
+                </div>
+                <div class="hero-card" onclick="openMapsModal('Search and Destroy')">
+                    <div class="check-badge">✓ معتمدة</div>
+                    <div class="hero-title">💣 سيرش آند ديستروي</div>
+                    <div class="hero-sub">5 مابات</div>
+                </div>
+                <div class="hero-card" onclick="openMapsModal('Control')">
+                    <div class="check-badge">✓ معتمدة</div>
+                    <div class="hero-title">🎯 كنترول</div>
+                    <div class="hero-sub">3 مابات</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRENADES PANEL -->
+        <div id="grenadesPanel" class="section-panel">
+            <div class="hero-container">
+                <div class="hero-card" onclick="openGrenadeModal('lethal')">
+                    <div class="check-badge">✓ مسموح</div>
+                    <div class="hero-title">💀 قنابل فتاكة</div>
+                    <div class="hero-sub">قنبلة يدوية · لاصقة · مولوتوف</div>
+                </div>
+                <div class="hero-card" onclick="openGrenadeModal('tactical')">
+                    <div class="check-badge">✓ مسموح</div>
+                    <div class="hero-title">🛡️ قنابل تكتيكية</div>
+                    <div class="hero-sub">ارتجاجية · ضوئية · دخانية · نظام التصدي</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OPERATORS PANEL -->
+        <div id="operatorsPanel" class="section-panel">
+            <div class="hero-container">
+                <div class="hero-card" onclick="openOperatorsModal()">
+                    <div class="check-badge">✓ مسموح</div>
+                    <div class="hero-title">✨ مهارات الأوبريتور</div>
+                    <div class="hero-sub">4 مهارات</div>
+                </div>
+            </div>
+            <div class="footer-modal-note" style="margin-top: -25px;">⚠️ لكل شخص من الفريق خاصية مختلفة - ممنوع تكرار الخاصية</div>
+        </div>
+
+        <!-- PERKS PANEL (FORBIDDEN) -->
+        <div id="perksPanel" class="section-panel">
+            <div class="hero-container">
+                <div class="hero-card" onclick="openPerksModal('red')">
+                    <div class="forbidden-badge">⛔ ممنوع</div>
+                    <div class="hero-title" style="color:#ff8888;">🔴 بيركات حمراء</div>
+                    <div class="hero-sub">5 بيركات</div>
+                </div>
+                <div class="hero-card" onclick="openPerksModal('green')">
+                    <div class="forbidden-badge">⛔ ممنوع</div>
+                    <div class="hero-title" style="color:#88ff88;">🟢 بيركات خضراء</div>
+                    <div class="hero-sub">4 بيركات</div>
+                </div>
+                <div class="hero-card" onclick="openPerksModal('blue')">
+                    <div class="forbidden-badge">⛔ ممنوع</div>
+                    <div class="hero-title" style="color:#88aaff;">🔵 بيركات زرقاء</div>
+                    <div class="hero-sub">9 بيركات</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCORESTREAKS PANEL -->
+        <div id="scorestreaksPanel" class="section-panel">
+            <div class="hero-container">
+                <div class="hero-card" onclick="openScorestreaksModal()">
+                    <div class="check-badge">✓ مسموح</div>
+                    <div class="hero-title">🎯 سكورستريك</div>
+                    <div class="hero-sub">3 مسموحة</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-main">
+            ⚡ IV CLAN · ELITE FORCE · GLASS EDITION ⚡<br>
+            ✨ DESIGNED BY <span>DOPA</span> | DISCORD: <span>IV.codm</span> ✨
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="weaponInfoModal" class="glass-modal"><div class="modal-gold-container" style="max-width: 360px;"><div class="close-modal-icon" onclick="closeWeaponModal()">✕</div><div class="modal-headline" id="weaponModalTitle"></div><div style="background: rgba(255,68,68,0.1); border-radius: 40px; padding: 16px; margin: 12px 0; text-align:center;"><div style="color:#ff7e5e;">⚠️ الملحق الممنوع ⚠️</div><div id="weaponModalAttach" style="color:#ffcca8; margin-top:8px;"></div></div><div class="footer-modal-note">🛡️ الاستبعاد الفوري من البطولات</div></div></div>
+    <div id="mapsGalleryModal" class="glass-modal"><div class="modal-gold-container"><div class="close-modal-icon" onclick="closeMapsGalleryModal()">✕</div><div class="modal-headline" id="mapsGalleryTitle"></div><div class="items-grid" id="mapsGalleryGrid"></div><div class="footer-modal-note">✓ المابات المعتمدة في بطولات IV CLAN</div></div></div>
+    <div id="grenadeModal" class="glass-modal"><div class="modal-gold-container" style="max-width: 500px;"><div class="close-modal-icon" onclick="closeGrenadeModal()">✕</div><div class="modal-headline" id="grenadeModalTitle"></div><div class="items-grid" id="grenadeGrid"></div><div class="footer-modal-note">💣 القنابل المسموحة في البطولات</div></div></div>
+    <div id="operatorsModal" class="glass-modal"><div class="modal-gold-container" style="max-width: 500px;"><div class="close-modal-icon" onclick="closeOperatorsModal()">✕</div><div class="modal-headline">✨ مهارات الأوبريتور (المسموحة)</div><div class="items-grid" id="operatorsGrid"></div><div class="footer-modal-note">⚠️ لكل شخص من الفريق خاصية مختلفة - ممنوع تكرار الخاصية</div></div></div>
+    <div id="perksModal" class="glass-modal"><div class="modal-gold-container" style="max-width: 600px;"><div class="close-modal-icon" onclick="closePerksModal()">✕</div><div class="modal-headline" id="perksModalTitle"></div><div class="items-grid" id="perksGrid"></div><div class="footer-modal-note">⛔ البيركات الممنوعة في بطولات IV CLAN</div></div></div>
+    <div id="scorestreaksModal" class="glass-modal"><div class="modal-gold-container" style="max-width: 500px;"><div class="close-modal-icon" onclick="closeScorestreaksModal()">✕</div><div class="modal-headline">🎯 السكورستريك المسموحة</div><div class="items-grid" id="scorestreaksGrid"></div><div class="footer-modal-note">✓ المسموحة في بطولات IV CLAN</div></div></div>
+
+    <script>
+        // ========== بيانات الأسلحة (تم تحديث Type 63) ==========
+        const weaponList = [
+            { name: "CR-56 AMAX", attachment: "ذخيرة M67", category: "AR" },
+            { name: "DR-H", attachment: "ذخيرة OTM Mag", category: "AR" },
+            { name: "AS VAL", attachment: "طلقة مخترقة 15 round FMJ", category: "AR" },
+            { name: "BP50", attachment: "معزز الارتداد + Leroy 438mm", category: "AR" },
+            { name: "M4", attachment: "قاذفة القنابل Underbarrel", category: "AR" },
+            { name: "ODEN", attachment: "ماسورة جوال OWC / رماية OWC", category: "AR" },
+            { name: "RAM-7", attachment: "ماسورة Forge Tac Barrel", category: "AR" },
+            { name: "HVK", attachment: "ذخيرة عيار كبير", category: "AR" },
+            { name: "Type 19", attachment: "ذخيرة قنص عالية الدقة", category: "AR" },
+            { name: "3 Line Rifle", attachment: "ماسورة Empress 514MM + حامل Bipod", category: "SNIPER" },
+            { name: "DLQ", attachment: "ذخيرة Concussion", category: "SNIPER" },
+            { name: "SKS", attachment: "مقبض تكتيكي أمامي", category: "SNIPER" },
+            { name: "Tundra", attachment: "ماسورة المشكلة بالمطرقة", category: "SNIPER" },
+            { name: "Type 63", attachment: "ماسورة تيتانيوم 16.4 · ماسورة فريق الهجوم 18.3 · زناد سريع · شريط المقبض الصلب · غلاف المطاط المظلي", category: "SNIPER" },
+            { name: "USS9", attachment: "مخزن 32 طلقة + ماسورة كاربين", category: "SMG" },
+            { name: "CX-9", attachment: "مخزن 12 طلقة Hollow point", category: "SMG" },
+            { name: "QQ9", attachment: "مخزن 30 طلقة 10MM", category: "SMG" },
+            { name: "RPD", attachment: "ماسورة ذخيرة لا نهائية", category: "LMG" },
+            { name: "MG42", attachment: "ماسورة Krausnick + ذخيرة 125", category: "LMG" },
+            { name: "Hades", attachment: "مطارد القلوب Heartseeker", category: "LMG" },
+            { name: "Automatic Pistol", attachment: "ماسورة 35 VDD", category: "PISTOL" },
+            { name: "50 GS", attachment: "زناد خفيفة / فاخر", category: "PISTOL" },
+            { name: "Shotgun", attachment: "جميع مخازن الشوتغن ممنوعة", category: "OTHER" }
+        ];
+
+        // ========== صور المابات (نفسها) ==========
+        const mapImages = {
+            hardpoint: ["https://i.postimg.cc/tC9NHwLL/Screenshot-Call-of-Duty-20260202-014709.jpg","https://i.postimg.cc/YSfMW4S4/Screenshot-Call-of-Duty-20260202-014353.jpg","https://i.postimg.cc/FRrmg9fr/Screenshot-Call-of-Duty-20260202-014534.jpg","https://i.postimg.cc/YSfMW4SG/Screenshot-Call-of-Duty-20260202-014558.jpg","https://i.postimg.cc/yNXsZJN3/Screenshot-Call-of-Duty-20260202-014633.jpg"],
+            search: ["https://i.postimg.cc/wMvkNbDr/Screenshot-Call-of-Duty-20260202-015032.jpg","https://i.postimg.cc/mkDS967X/Screenshot-Call-of-Duty-20260202-015054.jpg","https://i.postimg.cc/4yd1cFpS/Screenshot-Call-of-Duty-20260202-015125.jpg","https://i.postimg.cc/mkDS9676/Screenshot-Call-of-Duty-20260202-015151.jpg","https://i.postimg.cc/1tMHfZNh/Screenshot-Call-of-Duty-20260202-015247.jpg"],
+            control: ["https://i.postimg.cc/Tw2j8HNw/Screenshot-Call-of-Duty-20260202-015639.jpg","https://i.postimg.cc/bJY0XFVv/Screenshot-Call-of-Duty-20260202-015658.jpg","https://i.postimg.cc/B6Z5Ww7q/Screenshot-Call-of-Duty-20260202-015714.jpg"]
+        };
+
+        const lethalGrenades = ["قنبلة يدوية", "قنبلة لاصقة", "مولوتوف"];
+        const tacticalGrenades = ["قنبلة ارتجاجية", "قنبلة ضوئية", "قنبلة دخانية", "نظام التصدي"];
+        // Operator skills مع التصحيح (السهام المتفجره)
+        const operatorSkills = ["Purifier - المطهر", "Sparrow - السهام المتفجره", "Tempest - تيمبست", "War Machine - آلة الحرب"];
+        // البيركات مع التصحيحات
+        const redPerks = ["Martyrdom - التضحية", "Overclock - مسرع شحن القدرة", "Pinpoint - نقطة الإشارة", "Restock - إعادة التزويد", "Tactician - خبير تكتيكي"];
+        const greenPerks = ["Quick Fix - إصلاح سريع", "Recon - الاستطلاع", "Tracker - المتعقب", "Vulture - نسر"];
+        const bluePerks = [
+            "Alert - الإنذار",
+            "Assassin - القاتل",
+            "Engineer - المهندس",
+            "Hardline - العزيمة",
+            "High Alert - تأهب قصوى",
+            "Persistence - المثابره",
+            "Unit Support - دعم الوحدة",
+            "Demo Expert - تدريب النجاه",
+            "Shrapnel - شظية"
+        ];
+        // سكورستريك مع التصحيح
+        const scorestreaks = ["درون الصياد القاتل", "Predator Missile - صاروخ بريداتور", "Electromagnetic Pulse System - نبضة كهرومغناطيسية"];
+
+        // دوال البناء والعرض (نفس السابق)
+        function buildWeapons() {
+            const container = document.getElementById('weaponsContainer');
+            container.innerHTML = '';
+            weaponList.forEach(w => {
+                const card = document.createElement('div');
+                card.className = 'weapon-glass-card';
+                card.setAttribute('data-type', w.category);
+                card.innerHTML = `<div class="weapon-name">${w.name}</div><div class="weapon-category">${w.category}</div><div class="restricted-badge">⛔ محظور</div>`;
+                card.onclick = () => { document.getElementById('weaponModalTitle').innerText = w.name; document.getElementById('weaponModalAttach').innerHTML = w.attachment; document.getElementById('weaponInfoModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; };
+                container.appendChild(card);
+            });
+        }
+        function filterWeapons(cat, btn) {
+            document.querySelectorAll('#weaponsContainer .weapon-glass-card').forEach((card, idx) => { card.style.display = (cat === 'all' || weaponList[idx].category === cat) ? 'flex' : 'none'; });
+            document.querySelectorAll('#weaponFilters .glass-filter').forEach(f => f.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+        function openMapsModal(type) { const grid = document.getElementById('mapsGalleryGrid'); grid.innerHTML = ''; let images = [], title = ""; if (type === "Hard Point") { images = mapImages.hardpoint; title = "🔴 مابات هارد بوينت"; } else if (type === "Search and Destroy") { images = mapImages.search; title = "💣 مابات سيرش آند ديستروي"; } else { images = mapImages.control; title = "🎯 مابات كنترول"; } images.forEach(src => { const card = document.createElement('div'); card.className = 'item-card glass-corner'; card.innerHTML = `<img src="${src}" style="width:100%; height:100px; object-fit:cover; border-radius:16px;">`; grid.appendChild(card); }); document.getElementById('mapsGalleryTitle').innerText = title; document.getElementById('mapsGalleryModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeMapsGalleryModal() { document.getElementById('mapsGalleryModal').style.display = 'none'; document.body.style.overflow = ''; }
+        function openGrenadeModal(type) { const grid = document.getElementById('grenadeGrid'); grid.innerHTML = ''; let items = [], title = ""; if (type === 'lethal') { items = lethalGrenades; title = "💀 القنابل الفتاكة"; } else { items = tacticalGrenades; title = "🛡️ القنابل التكتيكية"; } items.forEach(i => { const card = document.createElement('div'); card.className = 'item-card glass-corner'; card.innerHTML = `<div class="item-name">${i}</div>`; grid.appendChild(card); }); document.getElementById('grenadeModalTitle').innerText = title; document.getElementById('grenadeModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeGrenadeModal() { document.getElementById('grenadeModal').style.display = 'none'; document.body.style.overflow = ''; }
+        function openOperatorsModal() { const grid = document.getElementById('operatorsGrid'); grid.innerHTML = ''; operatorSkills.forEach(s => { const card = document.createElement('div'); card.className = 'item-card glass-corner'; card.innerHTML = `<div class="item-name">${s}</div>`; grid.appendChild(card); }); document.getElementById('operatorsModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeOperatorsModal() { document.getElementById('operatorsModal').style.display = 'none'; document.body.style.overflow = ''; }
+        function openPerksModal(color) { const grid = document.getElementById('perksGrid'); grid.innerHTML = ''; let items = [], title = "", border = ""; if (color === 'red') { items = redPerks; title = "🔴 البيركات الحمراء (ممنوعة)"; border = "red-border"; } else if (color === 'green') { items = greenPerks; title = "🟢 البيركات الخضراء (ممنوعة)"; border = "green-border"; } else { items = bluePerks; title = "🔵 البيركات الزرقاء (ممنوعة)"; border = "blue-border"; } items.forEach(p => { const card = document.createElement('div'); card.className = `item-card glass-corner ${border}`; card.innerHTML = `<div class="item-name" style="color:#ffaaaa;">⛔ ${p}</div>`; grid.appendChild(card); }); document.getElementById('perksModalTitle').innerText = title; document.getElementById('perksModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closePerksModal() { document.getElementById('perksModal').style.display = 'none'; document.body.style.overflow = ''; }
+        function openScorestreaksModal() { const grid = document.getElementById('scorestreaksGrid'); grid.innerHTML = ''; scorestreaks.forEach(s => { const card = document.createElement('div'); card.className = 'item-card glass-corner'; card.innerHTML = `<div class="item-name">${s}</div>`; grid.appendChild(card); }); document.getElementById('scorestreaksModal').style.display = 'flex'; document.body.style.overflow = 'hidden'; }
+        function closeScorestreaksModal() { document.getElementById('scorestreaksModal').style.display = 'none'; document.body.style.overflow = ''; }
+        function closeWeaponModal() { document.getElementById('weaponInfoModal').style.display = 'none'; document.body.style.overflow = ''; }
+        function switchPanel(panelId, btn) { document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active-panel')); document.getElementById(panelId).classList.add('active-panel'); document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); if (btn) btn.classList.add('active'); }
+        function createParticles() { const layer = document.getElementById('particlesLayer'); for (let i = 0; i < 45; i++) { const p = document.createElement('div'); p.className = 'particle'; const s = Math.random() * 10 + 2; p.style.width = s + 'px'; p.style.height = s + 'px'; p.style.left = Math.random() * 100 + '%'; p.style.bottom = Math.random() * -20 + '%'; p.style.animationDelay = Math.random() * 12 + 's'; p.style.animationDuration = Math.random() * 14 + 8 + 's'; layer.appendChild(p); } }
+        createParticles();
+        document.querySelectorAll('.tab-btn').forEach(btn => { btn.onclick = () => switchPanel(btn.getAttribute('data-panel') + 'Panel', btn); });
+        document.querySelectorAll('#weaponFilters .glass-filter').forEach(btn => { btn.onclick = () => filterWeapons(btn.getAttribute('data-filter'), btn); });
+        document.getElementById('weaponInfoModal').onclick = (e) => { if(e.target === document.getElementById('weaponInfoModal')) closeWeaponModal(); };
+        document.getElementById('mapsGalleryModal').onclick = (e) => { if(e.target === document.getElementById('mapsGalleryModal')) closeMapsGalleryModal(); };
+        document.getElementById('grenadeModal').onclick = (e) => { if(e.target === document.getElementById('grenadeModal')) closeGrenadeModal(); };
+        document.getElementById('operatorsModal').onclick = (e) => { if(e.target === document.getElementById('operatorsModal')) closeOperatorsModal(); };
+        document.getElementById('perksModal').onclick = (e) => { if(e.target === document.getElementById('perksModal')) closePerksModal(); };
+        document.getElementById('scorestreaksModal').onclick = (e) => { if(e.target === document.getElementById('scorestreaksModal')) closeScorestreaksModal(); };
+        document.oncontextmenu = () => false;
+        document.onkeydown = (e) => { if (e.key === 'Escape') { closeWeaponModal(); closeMapsGalleryModal(); closeGrenadeModal(); closeOperatorsModal(); closePerksModal(); closeScorestreaksModal(); } if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74))) return false; };
+        buildWeapons(); filterWeapons('all', document.querySelector('#weaponFilters .glass-filter.active'));
+    </script>
+</body>
+</html>
